@@ -1,0 +1,6 @@
+<meta>
+     <info author="Mini-Me" type="gamemode" name="BTTF:HV Login" description="prompts players to login with their Back to the Future: Hill Valley account" />
+     <script src="account.lua" />
+     <script src="client.lua" type="client" protected="true" />
+     <file src="bttfhv_logo.png" />
+</meta>

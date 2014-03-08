@@ -1,0 +1,75 @@
+<meta>
+    <info author="Mini-Me" type="script" name="BTTF:HV MP" description="new Back to the Future: Hill Valley Multiplayer" />
+    <script src="server.lua" />
+    <script src="vehicles.lua" />
+    <script src="vehicles_client.lua" type="client" protected="true" />
+    <script src="client.lua" type="client" protected="true" />
+    <map src="pickups.map" />
+    <include resource="spawnmanager2" />
+    <include resource="scoreboard" />
+    <include resource="RcMode" />
+    <!-- <include resource="bttfhv_account" /> Commented out to prevent it from being reloaded with this -->
+    
+    <!-- xml -->
+    <file src="vehicles.xml" />
+    
+    <!-- images -->
+    <file src="led/speedodigits.png" />
+    <file src="speedo2d.png" />
+    <file src="speedo3d.png" />
+    <file src="led/TCD.png" />
+    <file src="led/green_numbers.png" />
+    <file src="led/green_months.png" />
+    <file src="led/orange_numbers.png" />
+    <file src="led/orange_months.png" />
+    <file src="led/red_numbers.png" />
+    <file src="led/red_months.png" />
+    <file src="led/colons.png" />
+    <file src="led/PAM.png" />
+    <file src="empty_signal.png" />
+
+    <!-- models -->
+    <file src="models/empty.col" />
+    <file src="models/bttf2.txd" />
+    <file src="models/bullet.dff" />
+    <file src="models/sparrow.dff" />
+    <file src="models/d_strut_l.dff" />
+    <file src="models/d_strut_r.dff" />
+    <file src="models/d_wheel_l.dff" /> 
+    <file src="models/d_wheel_r.dff" />
+    <file src="models/d_coil_lit.dff" />
+    <file src="models/d_green.dff" />
+    <file src="models/d_wheel_g.dff" />
+    <file src="models/particle_extinguisher.dff" />
+    <file src="models/particle_fire.dff" />
+    <file src="models/particle_jetpack.dff" />
+    <file src="models/particle_prt_spark.dff" />
+    <file src="models/particle_vent.dff" />
+    <file src="models/editingHelp.col" />
+
+    <!-- sounds -->
+    <file src="sounds/hover_on.mp3" />
+    <file src="sounds/hover_off.mp3" />
+    <file src="sounds/keypad/on.mp3" />
+    <file src="sounds/keypad/off.mp3" />
+    <file src="sounds/keypad/confirm.mp3" />
+    <file src="sounds/keypad/0.mp3" />
+    <file src="sounds/keypad/1.mp3" />
+    <file src="sounds/keypad/2.mp3" />
+    <file src="sounds/keypad/3.mp3" />
+    <file src="sounds/keypad/4.mp3" />
+    <file src="sounds/keypad/5.mp3" />
+    <file src="sounds/keypad/6.mp3" />
+    <file src="sounds/keypad/7.mp3" />
+    <file src="sounds/keypad/8.mp3" />
+    <file src="sounds/keypad/9.mp3" />
+    <file src="sounds/engine_on.mp3" />
+    <file src="sounds/engine_off.mp3" />
+    <file src="sounds/time_travel-instant.mp3" />
+    <file src="sounds/time_travel-departure.mp3" />
+    <file src="sounds/time_travel-reentry.mp3" />
+    <file src="sounds/pre_travel.mp3" />
+    <file src="sounds/mrfusion.mp3" />
+    <file src="sounds/empty.mp3" />
+    <file src="sounds/vent_steam.mp3" />
+</meta>

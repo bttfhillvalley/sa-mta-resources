@@ -5,7 +5,7 @@
     <script src="vehicles_client.lua" type="client" protected="true" />
     <script src="client.lua" type="client" protected="true" />
     <map src="pickups.map" />
-    <include resource="spawnmanager2" />
+    <include resource="bttfhv_spawnmanager" />
     <include resource="scoreboard" />
     <include resource="RcMode" />
     <!-- <include resource="bttfhv_account" /> Commented out to prevent it from being reloaded with this -->

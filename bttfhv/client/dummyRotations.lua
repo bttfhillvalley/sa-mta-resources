@@ -4,8 +4,8 @@ function updateDummyRotations(vehicle)
     end
 
 	local dummyComponentList = {
-		door_lf_dummy = { "door_lf_ok", },
-		door_rf_dummy = { "door_rf_ok", },
+		door_lf_dummy = { "door_lf_ok", "door_lf_ok_glass", --[[ "door_lf_ok_window", ]] },
+		door_rf_dummy = { "door_rf_ok", "door_rf_ok_glass", --[[ "door_rf_ok_window", ]] },
 		--"door_lr_dummy" = nil,
 		--"door_rr_dummy" = nil,
 		wheel_lf_dummy = { "fxtirebttf1lf", "fxwheelbttf1lf", "fxrotorlf", "brakelf", "holderlf", },

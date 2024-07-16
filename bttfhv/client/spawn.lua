@@ -123,6 +123,7 @@ function handleVehicleSpawnedEvent(delorean)
 		"plutcaninterior",
 		"plutcan",
 		"reactorlidbttf1",
+		"reactorshield",
 		"ventsweather", -- This should only be present on the BTTF1 cars
 
 		"grillhitchbracketbttf1", -- This should only be present on the BTTF1 non-hover cars

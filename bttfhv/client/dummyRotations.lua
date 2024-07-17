@@ -14,15 +14,15 @@ function updateDummyRotations(vehicle)
 		wheel_rb_dummy = { "fxtirebttf1rb", "fxwheelbttf1rb", "fxrotorrb", "brakerb", "holderrb", },
 	}
 	for dummyName, deloreanList in pairs(dummyComponentList) do
-		local rX, rY, rZ = getVehicleComponentRotation(vehicle, dummyName)
-		if rX and rY and rZ then
+		local x, y, z = getVehicleComponentRotation(vehicle, dummyName)
+		if type(x) == "number" and type(y) == "number" and type(z) == "number" then
 			-- because Rockstar Games flips the left side tires, we need to undo this here
 			if dummyName == "wheel_lf_dummy" or dummyName == "wheel_lb_dummy" then
-				rY = rY + 180.0
-				rX = 360.0 - rX
+				y = y + 180.0
+				x = 360.0 - x
 			end
 			for _, deloreanName in ipairs(deloreanList) do
-				setVehicleComponentRotation(vehicle, deloreanName, rX, rY, rZ)
+				setVehicleComponentRotation(vehicle, deloreanName, x, y, z)
 			end
 		end
 	end

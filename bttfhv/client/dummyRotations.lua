@@ -25,6 +25,13 @@ function updateDummyRotations(vehicle)
 				setVehicleComponentRotation(vehicle, deloreanName, x, y, z)
 			end
 		end
+
+		x, y, z = getVehicleComponentPosition(vehicle, dummyName)
+		if type(x) == "number" and type(y) == "number" and type(z) == "number" then
+			for _, deloreanName in ipairs(deloreanList) do
+				setVehicleComponentPosition(vehicle, deloreanName, x, y, z)
+			end
+		end
 	end
 end
 

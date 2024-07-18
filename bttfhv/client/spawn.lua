@@ -1,4 +1,5 @@
 local g_lastCarSpawn = {}
+local g_vehicleComponents = {}
 
 function spawnDelorean(key, keyState)
 	local thePlayer = getLocalPlayer()
@@ -21,590 +22,66 @@ addEvent("vehicleSpawned", true)
 function handleVehicleSpawnedEvent(delorean)
 	setVehicleWheelScale(delorean, 0.79)
 
-	for i = 0, 70 do
-		local name = string.format("wormhole%d", i)
-		setVehicleComponentVisible(delorean, name, false)
-		name = string.format("wormholer%d", i)
-		setVehicleComponentVisible(delorean, name, false)
-	end
-
-	--[[ Status Indicator Display (Xmas Tree) LEDs ]]
-	for i = 1, 20 do
-		for j = 1, 10 do
-			local name = string.format("sidledsline%d%d", i, j)
-			setVehicleComponentVisible(delorean, name, false)
+	local variation = getElementData(delorean, "deloreanVariation")
+	local components = getVehicleComponents(delorean)
+    for name, _ in pairs(components) do
+		-- the double negation changes a nil (for a not set list item) to false
+		local common = not not g_vehicleComponents["common"][name]
+		local thisVariation = not not g_vehicleComponents["common"][name]
+		--outputDebugString(string.format("%s, common = %s, var = %s", name, tostring(common), tostring(thisVariation)))
+		local visibility = common or thisVariation 
+        local result = setVehicleComponentVisible(delorean, name, visibility)
+		if not result then
+			outputDebugString(string.format("failed to set visibility of components '%s' to %s", name, tostring(visibility)))
 		end
-	end
-
-	local otherComponentsToHide = {
-		"fluxcoilson",
-		"inner_vents",
-		"inner_ventsglow",
-		"door_lf_fr",
-		"door_rf_fr",
-		"door_lf_window_fr",
-		"door_rf_window_fr"	,
-		"chassis_fr",
-		"bonnet_fr",
-		"roof_fr",
-		"wing_lf_fr",
-		"wing_lr_fr",
-		"wing_rf_fr",
-		"wing_rr_fr",
-		"windscreen_fr",
-		"vents_fr",
-
-		--[[ Hover conversion thrusters ]]
-		--[["fxthrusterbttf2lf",
-		"fxthrusterbttf2rf",
-		"fxthrusterbttf2lb",
-		"fxthrusterbttf2rb",]]
-
-		"fxthrusterbttf2lfon",
-		"fxthrusterbttf2rfon",
-		"fxthrusterbttf2lbon",
-		"fxthrusterbttf2rbon",
-		
-		"fxthrusterbttf2lfth",
-		"fxthrusterbttf2rfth",
-		"fxthrusterbttf2lbth",
-		"fxthrusterbttf2rbth",
-		
-		--[["fxwheelbttf1lf",
-		"fxwheelbttf1rf",
-		"fxwheelbttf1lb",
-		"fxwheelbttf1rb",]]
-		
-		"fxwheelbttf2lfon",
-		"fxwheelbttf2rfon",
-		"fxwheelbttf2lbon",
-		"fxwheelbttf2rbon",
-		
-		"fxwheelbttf3lf",
-		"fxwheelbttf3rf",
-		"fxwheelbttf3lb",
-		"fxwheelbttf3rb",
-
-		"fxwheelbttf3rrlf",
-		"fxwheelbttf3rrrf",
-		"fxwheelbttf3rrlb",
-		"fxwheelbttf3rrrb",
-
-		"fxhubcapbttf3lf",
-		"fxhubcapbttf3rf",
-		"fxhubcapbttf3lb",
-		"fxhubcapbttf3rb",
-
-		--[["fxtirebttf1lf",
-		"fxtirebttf1rf",
-		"fxtirebttf1lb",
-		"fxtirebttf1rb",]]
-
-		"fxtirebttf3lf",
-		"fxtirebttf3rf",
-		"fxtirebttf3lb",
-		"fxtirebttf3rb",
-
-		"hitch",
-		"bonnetbttf3",
-		"fireboxgaugeneedle",
-		"fireboxgauge",
-
-		"bttf1",
-		"holderbttf1",
-		"hookguidebttf1",
-		"hookbttf1",
-		"hookcableplugbttf1",
-		"hookcablesoffbttf1",
-		"hookcablesonbttf1",
-		"frontsuspbttf1",
-		"plut",
-		"plutcanliquid",
-		"plutcaninterior",
-		"plutcan",
-		"reactorlidbttf1",
-		"reactorshield",
-		"ventsweather", -- This should only be present on the BTTF1 cars
-
-		"grillhitchbracketbttf1", -- This should only be present on the BTTF1 non-hover cars
-
-		"plate", -- OUTATIME license plate
-		"plate_back", -- Dynamic California license plate. This one can be used for stock DeLoreans
-		"platestock", -- Static California license plate
-
-		--[[ Stock car features ]]
-		"back_glass",
-		"consoletop",
-		"consoletopcontrols",
-		"boot_ok",
-		"wcontrollf",
-		"wcontrolrf",
-		"floormats",
-		"frontsusp",
-		"cargonet",
-		"gloveboxclosed",
-		"passengerseatbelt",
-		"consoleacgrills",
-		"exhaustmodel",
-		"enginecover",
-		"windscreen_rearview",
-
-		--[[ Non-hover features ]]
-		"xchassis",
-		"enginemodel",
-		"underbody",
-		"bonnetanchorl",
-		"bonnetanchorr",
-
-		--[[ Console clock digits and colon ]]
-		"consoleclockdigitmin10",
-		"consoleclockdigitmin11",
-		"consoleclockdigitmin12",
-		"consoleclockdigitmin13",
-		"consoleclockdigitmin14",
-		"consoleclockdigitmin15",
-		"consoleclockdigitmin16",
-		"consoleclockdigitmin17",
-		"consoleclockdigitmin18",
-		"consoleclockdigitmin19",
-		"consoleclockdigitmin20",
-		"consoleclockdigitmin21",
-		"consoleclockdigitmin22",
-		"consoleclockdigitmin23",
-		"consoleclockdigitmin24",
-		"consoleclockdigitmin25",
-		"consoleclockdigitcolon",
-		"consoleclockdigithour10",
-		"consoleclockdigithour11",
-		"consoleclockdigithour12",
-		"consoleclockdigithour13",
-		"consoleclockdigithour14",
-		"consoleclockdigithour15",
-		"consoleclockdigithour16",
-		"consoleclockdigithour17",
-		"consoleclockdigithour18",
-		"consoleclockdigithour19",
-		"consoleclockdigithour21",
-
-		--[[ Car light frames ]]
-		"lightRVl",
-		"lightRVr",
-		"lightSl",
-		"lightSr",
-		"lightFl",
-		"lightRl",
-		"lightFr",
-		"intLight",
-		"headlightshighon",
-		"turnlightlb",
-		"turnlightrb",
-		"turnlightrf",
-		"turnlightlf",
-
-		--[[ Digital speedometer digits ]]
-		"digitalspeedodigit10",
-		"digitalspeedodigit11",
-		"digitalspeedodigit12",
-		"digitalspeedodigit13",
-		"digitalspeedodigit14",
-		"digitalspeedodigit15",
-		"digitalspeedodigit16",
-		"digitalspeedodigit17",
-		"digitalspeedodigit18",
-		"digitalspeedodigit19",
-		"digitalspeedodigit20",
-		"digitalspeedodigit21",
-		"digitalspeedodigit22",
-		"digitalspeedodigit23",
-		"digitalspeedodigit24",
-		"digitalspeedodigit25",
-		"digitalspeedodigit26",
-		"digitalspeedodigit27",
-		"digitalspeedodigit28",
-		"digitalspeedodigit29",
-
-		--[[ Time circuits status lights ]]
-		"tcdswitchlighton", -- Assumed off
-		
-		--[[ Stock dashboard lights ]]
-		"lambdalight",
-		"oillight",
-		"batterylight",
-		"seatbeltlight",
-		"doorajarlight",
-		"fuellight",
-		"brakelight",
-		"turnsignalllight",
-		"turnsignalrlight",
-		"lowbeamslight",
-		"highbeamslight",
-
-		-- [[ Stock console button lights ]]
-		"headlightsswon",
-		"hazardswon",
-
-		--[[ Shifter animations ]]
-		"shifter1",
-		"shifter2",
-		"shifter3",
-		"shifter4",
-		"shifter5",
-		"shifterR",	
-
-		--[[ Rear wing windows ]]
-		"wing_lr_ok_glass",
-		"wing_lr_dam_glass",
-		"wing_rr_ok_glass",
-		"wing_rr_dam_glass",
-
-		--[[ Stock car front grill ]]
-		"bump_front_ok_grill",
-		"bump_front_dam_grill",
-
-		--[[ Flux capacitor effects ]]
-		"flux1",
-		"flux2",
-		"flux3",
-		"flux4",
-		"flux5",
-		"flux6",
-		"fluxcapacitorlightson",
-
-		--[[ Glovebox effects ]]
-		"pchamberemptylight",
-		"gloveboxgaugeslights",
-
-		--[[ TCD effects ]]
-
-		--[[ Destination Time ]]
-		"ptam",
-		"ptpm",
-		"dtmonth1",
-		"dtmonth2",
-		"dtmonth3",
-		"dtmonth4",
-		"dtmonth5",
-		"dtmonth6",
-		"dtmonth7",
-		"dtmonth8",
-		"dtmonth9",
-		"dtmonth10",
-		"dtmonth11",
-		"dtmonth12",
-		"dtday20",
-		"dtday21",
-		"dtday22",
-		"dtday23",
-		"dtday24",
-		"dtday25",
-		"dtday26",
-		"dtday27",
-		"dtday28",
-		"dtday29",
-		"dtday10",
-		"dtday11",
-		"dtday12",
-		"dtday13",
-		"dtday14",
-		"dtday15",
-		"dtday16",
-		"dtday17",
-		"dtday18",
-		"dtday19",
-		"dtyear40",
-		"dtyear41",
-		"dtyear42",
-		"dtyear43",
-		"dtyear44",
-		"dtyear45",
-		"dtyear46",
-		"dtyear47",
-		"dtyear48",
-		"dtyear49",
-		"dtyear30",
-		"dtyear31",
-		"dtyear32",
-		"dtyear33",
-		"dtyear34",
-		"dtyear35",
-		"dtyear36",
-		"dtyear37",
-		"dtyear38",
-		"dtyear39",
-		"dtyear20",
-		"dtyear21",
-		"dtyear22",
-		"dtyear23",
-		"dtyear24",
-		"dtyear25",
-		"dtyear26",
-		"dtyear27",
-		"dtyear28",
-		"dtyear29",
-		"dtyear10",
-		"dtyear11",
-		"dtyear12",
-		"dtyear13",
-		"dtyear14",
-		"dtyear15",
-		"dtyear16",
-		"dtyear17",
-		"dtyear18",
-		"dtyear19",
-		"dthour20",
-		"dthour21",
-		"dthour22",
-		"dthour23",
-		"dthour24",
-		"dthour25",
-		"dthour26",
-		"dthour27",
-		"dthour28",
-		"dthour29",
-		"dthour10",
-		"dthour11",
-		"dthour12",
-		"dthour13",
-		"dthour14",
-		"dthour15",
-		"dthour16",
-		"dthour17",
-		"dthour18",
-		"dthour19",
-		"dtmin20",
-		"dtmin21",
-		"dtmin22",
-		"dtmin23",
-		"dtmin24",
-		"dtmin25",
-		"dtmin26",
-		"dtmin27",
-		"dtmin28",
-		"dtmin29",
-		"dtmin10",
-		"dtmin11",
-		"dtmin12",
-		"dtmin13",
-		"dtmin14",
-		"dtmin15",
-		"dtmin16",
-		"dtmin17",
-		"dtmin18",
-		"dtmin19",
-		"dtcolon",
-
-		--[[ Present Time ]]
-		"ptam",
-		"ptpm",
-		"ptmonth1",
-		"ptmonth2",
-		"ptmonth3",
-		"ptmonth4",
-		"ptmonth5",
-		"ptmonth6",
-		"ptmonth7",
-		"ptmonth8",
-		"ptmonth9",
-		"ptmonth10",
-		"ptmonth11",
-		"ptmonth12",
-		"ptday20",
-		"ptday21",
-		"ptday22",
-		"ptday23",
-		"ptday10",
-		"ptday11",
-		"ptday12",
-		"ptday13",
-		"ptday14",
-		"ptday15",
-		"ptday16",
-		"ptday17",
-		"ptday18",
-		"ptday19",
-		"ptyear40",
-		"ptyear41",
-		"ptyear42",
-		"ptyear43",
-		"ptyear44",
-		"ptyear45",
-		"ptyear46",
-		"ptyear47",
-		"ptyear48",
-		"ptyear49",
-		"ptyear30",
-		"ptyear31",
-		"ptyear32",
-		"ptyear33",
-		"ptyear34",
-		"ptyear35",
-		"ptyear36",
-		"ptyear37",
-		"ptyear38",
-		"ptyear39",
-		"ptyear20",
-		"ptyear21",
-		"ptyear22",
-		"ptyear23",
-		"ptyear24",
-		"ptyear25",
-		"ptyear26",
-		"ptyear27",
-		"ptyear28",
-		"ptyear29",
-		"ptyear10",
-		"ptyear11",
-		"ptyear12",
-		"ptyear13",
-		"ptyear14",
-		"ptyear15",
-		"ptyear16",
-		"ptyear17",
-		"ptyear18",
-		"ptyear19",
-		"pthour20",
-		"pthour21",
-		"pthour10",
-		"pthour11",
-		"pthour12",
-		"pthour13",
-		"pthour14",
-		"pthour15",
-		"pthour16",
-		"pthour17",
-		"pthour18",
-		"pthour19",
-		"ptmin20",
-		"ptmin21",
-		"ptmin22",
-		"ptmin23",
-		"ptmin24",
-		"ptmin25",
-		"ptmin10",
-		"ptmin11",
-		"ptmin12",
-		"ptmin13",
-		"ptmin14",
-		"ptmin15",
-		"ptmin16",
-		"ptmin17",
-		"ptmin18",
-		"ptmin19",
-		"ptcolon",
-
-		--[[ Last Time Departed ]]
-		"ltdam",
-		"ltdpm",
-		"ltdmonth1",
-		"ltdmonth2",
-		"ltdmonth3",
-		"ltdmonth4",
-		"ltdmonth5",
-		"ltdmonth6",
-		"ltdmonth7",
-		"ltdmonth8",
-		"ltdmonth9",
-		"ltdmonth10",
-		"ltdmonth11",
-		"ltdmonth12",
-		"ltdday20",
-		"ltdday21",
-		"ltdday22",
-		"ltdday23",
-		"ltdday10",
-		"ltdday11",
-		"ltdday12",
-		"ltdday13",
-		"ltdday14",
-		"ltdday15",
-		"ltdday16",
-		"ltdday17",
-		"ltdday18",
-		"ltdday19",
-		"ltdyear40",
-		"ltdyear41",
-		"ltdyear42",
-		"ltdyear43",
-		"ltdyear44",
-		"ltdyear45",
-		"ltdyear46",
-		"ltdyear47",
-		"ltdyear48",
-		"ltdyear49",
-		"ltdyear30",
-		"ltdyear31",
-		"ltdyear32",
-		"ltdyear33",
-		"ltdyear34",
-		"ltdyear35",
-		"ltdyear36",
-		"ltdyear37",
-		"ltdyear38",
-		"ltdyear39",
-		"ltdyear20",
-		"ltdyear21",
-		"ltdyear22",
-		"ltdyear23",
-		"ltdyear24",
-		"ltdyear25",
-		"ltdyear26",
-		"ltdyear27",
-		"ltdyear28",
-		"ltdyear29",
-		"ltdyear10",
-		"ltdyear11",
-		"ltdyear12",
-		"ltdyear13",
-		"ltdyear14",
-		"ltdyear15",
-		"ltdyear16",
-		"ltdyear17",
-		"ltdyear18",
-		"ltdyear19",
-		"ltdhour20",
-		"ltdhour21",
-		"ltdhour10",
-		"ltdhour11",
-		"ltdhour12",
-		"ltdhour13",
-		"ltdhour14",
-		"ltdhour15",
-		"ltdhour16",
-		"ltdhour17",
-		"ltdhour18",
-		"ltdhour19",
-		"ltdmin20",
-		"ltdmin21",
-		"ltdmin22",
-		"ltdmin23",
-		"ltdmin24",
-		"ltdmin25",
-		"ltdmin10",
-		"ltdmin11",
-		"ltdmin12",
-		"ltdmin13",
-		"ltdmin14",
-		"ltdmin15",
-		"ltdmin16",
-		"ltdmin17",
-		"ltdmin18",
-		"ltdmin19",
-		"ltdcolon",
-
-		"tcdkeypadlightson", -- Assumed off
-		"tcdkeypadenterlighton",
-
-		"overheadconsoleelight",
-
-		"stwheelbuttonslights",
-	}
-	for _, name in ipairs(otherComponentsToHide) do
-		setVehicleComponentVisible(delorean, name, false)
 	end
 end
 addEventHandler("vehicleSpawned", getRootElement(), handleVehicleSpawnedEvent)
 
+function loadVehicleComponentsList()
+	-- try loading the file and output an error message if it fails
+	local file = xmlLoadFile("client/vehicleComponents.xml")
+	if not file then
+		outputDebugString("Failed to load the file client/vehicleComponents.xml")
+		return
+	end
+
+	-- build a lookup table of the form
+	-- g_vehicleComponents = {
+	--     stock = {
+	--         component1 = true,
+	--         component2 = true,
+	--         component3 = true,
+	--         ...
+	--     },
+	--     bttf1 = {
+	--         component1 = true,
+	--         component2 = true,
+	--         component3 = true,
+	--         ...
+	--     },
+	--         ...
+	-- }
+	-- get the list of variation nodes and loop through them
+	local variations = xmlNodeGetChildren(file)
+	for _, variationNode in ipairs(variations) do
+		-- get the name attribute, get the list of components and loop through them
+		local variationName = xmlNodeGetAttribute(variationNode, "name")
+		g_vehicleComponents[variationName] = {}
+		local components = xmlNodeGetChildren(variationNode)
+		for _, componentNode in ipairs(components) do
+			-- add this component to the array and set to visible
+			local componentName = xmlNodeGetAttribute(componentNode, "name")
+			g_vehicleComponents[variationName][componentName] = true
+		end
+	end
+
+	-- free memory
+	xmlUnloadFile(file)
+end
+
 function onStart()	
 	bindKey("0", "down", spawnDelorean)
+	loadVehicleComponentsList()
 end
 addEventHandler("onClientResourceStart", resourceRoot, onStart)

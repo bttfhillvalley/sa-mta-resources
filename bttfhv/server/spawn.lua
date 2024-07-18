@@ -12,6 +12,7 @@ function handleSpawnVehicleEvent(delorean)
 	setElementDimension(vehicle, getElementDimension(client))
 	warpPedIntoVehicle(client, vehicle)
 	setVehicleColor(vehicle, 14, 13, 0, 0)
+	setElementData(vehicle, "deloreanVariation", "stock")
 	triggerClientEvent("vehicleSpawned", source, vehicle)
 end
 addEventHandler("spawnVehicle", getRootElement(), handleSpawnVehicleEvent)

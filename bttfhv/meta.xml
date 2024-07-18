@@ -11,4 +11,5 @@
   <script src="client/wormhole.lua" type="client" cache="false"/>
   <file src="client/models/delorean.dff" />
   <file src="client/models/delorean.txd" />
+  <file src="client/vehicleComponents.xml" />
 </meta>

@@ -2,20 +2,19 @@ local g_lastCarSpawn = {}
 local g_vehicleComponents = {}
 
 function spawnDelorean(key, keyState)
-	local thePlayer = getLocalPlayer()
-	if getPedOccupiedVehicle(thePlayer) or getElementInterior(thePlayer) ~= 0 or isPedDead(thePlayer) then
+	if getPedOccupiedVehicle(localPlayer) or getElementInterior(localPlayer) ~= 0 or isPedDead(localPlayer) then
 		return
 	end	
-	if not g_lastCarSpawn[thePlayer] then
-		g_lastCarSpawn[thePlayer] = 0
+	if not g_lastCarSpawn[localPlayer] then
+		g_lastCarSpawn[localPlayer] = 0
 	end
-	local spawnCooldown = (getTickCount() - g_lastCarSpawn[thePlayer]) / 1000
+	local spawnCooldown = (getTickCount() - g_lastCarSpawn[localPlayer]) / 1000
 	if not (spawnCooldown >= 30) then
 		outputChatBox(string.format("You have to wait an other %2i seconds before you can spawn a new vehicle.", 30 - spawnCooldown), 255, 0, 0)
 		return
 	end
 	triggerServerEvent("spawnVehicle", localPlayer, g_vehicleIdDelorean)
-	g_lastCarSpawn[thePlayer] = getTickCount()
+	g_lastCarSpawn[localPlayer] = getTickCount()
 end
 
 addEvent("vehicleSpawned", true)

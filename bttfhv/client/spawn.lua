@@ -27,7 +27,7 @@ function handleVehicleSpawnedEvent(delorean)
     for name, _ in pairs(components) do
 		-- the double negation changes a nil (for a not set list item) to false
 		local common = not not g_vehicleComponents["common"][name]
-		local thisVariation = not not g_vehicleComponents["common"][name]
+		local thisVariation = not not g_vehicleComponents[variation][name]
 		--outputDebugString(string.format("%s, common = %s, var = %s", name, tostring(common), tostring(thisVariation)))
 		local visibility = common or thisVariation 
         local result = setVehicleComponentVisible(delorean, name, visibility)

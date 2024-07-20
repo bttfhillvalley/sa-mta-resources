@@ -1,10 +1,30 @@
 local g_lastCarSpawn = {}
-local g_vehicleComponents = {}
+local g_idxLastVariation = 0
+local g_vehicleComponents = { _variationNames = {} }
 
-function spawnDelorean(key, keyState)
-	if getPedOccupiedVehicle(localPlayer) or getElementInterior(localPlayer) ~= 0 or isPedDead(localPlayer) then
+function spawnDeloreanOrChangeVariation()
+	local vehicle = getPedOccupiedVehicle(localPlayer)
+	if vehicle and getElementModel(vehicle) == g_vehicleIdDelorean then 
+		nextDeloreanVariation(vehicle)
+	else 
+		spawnDelorean(vehicle)
+	end
+end
+
+function nextDeloreanVariation(vehicle)
+	g_idxLastVariation = g_idxLastVariation + 1
+	if g_idxLastVariation > #g_vehicleComponents._variationNames then 
+		g_idxLastVariation = 1
+	end
+
+	applyDeloreanVariation(vehicle, g_vehicleComponents._variationNames[g_idxLastVariation])
+end
+
+function spawnDelorean(vehicle)
+	if vehicle or getElementInterior(localPlayer) ~= 0 or isPedDead(localPlayer) then
 		return
 	end	
+
 	if not g_lastCarSpawn[localPlayer] then
 		g_lastCarSpawn[localPlayer] = 0
 	end
@@ -35,10 +55,11 @@ function applyDeloreanVariation(delorean, variation)
         
 		-- apply
         local result = setVehicleComponentVisible(delorean, name, visibility)
-		if not result then
-			outputDebugString(string.format("failed to set visibility of component '%s' to %s", name, tostring(visibility)))
-		end
+		--if not result then
+		--	outputDebugString(string.format("failed to set visibility of component '%s' to %s", name, tostring(visibility)))
+		--end
 	end
+	outputChatBox(string.format("Applied variation %s.", variation))
 end
 
 addEvent("vehicleSpawned", true)
@@ -77,9 +98,14 @@ function loadVehicleComponentsList()
 	-- get the list of variation nodes and loop through them
 	local variations = xmlNodeGetChildren(file)
 	for _, variationNode in ipairs(variations) do
-		-- get the name attribute, get the list of components and loop through them
+		-- get the name attribute and add an empty array this variation
 		local variationName = xmlNodeGetAttribute(variationNode, "name")
 		g_vehicleComponents[variationName] = {}
+
+		-- add the variationName to the array to be able to get it by a numerical index
+		table.insert(g_vehicleComponents._variationNames, variationName)
+		
+		-- get the list of components and loop through them
 		local components = xmlNodeGetChildren(variationNode)
 		for _, componentNode in ipairs(components) do
 			-- add this component to the array and set to visible
@@ -93,7 +119,7 @@ function loadVehicleComponentsList()
 end
 
 function onStart()	
-	bindKey("0", "down", spawnDelorean)
+	bindKey("0", "down", spawnDeloreanOrChangeVariation)
 	loadVehicleComponentsList()
 end
 addEventHandler("onClientResourceStart", resourceRoot, onStart)

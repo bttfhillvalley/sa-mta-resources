@@ -8,10 +8,10 @@ function updateDummyRotations(vehicle)
 		door_rf_dummy = { "door_rf_ok", "door_rf_ok_glass", --[[ "door_rf_ok_window", ]] },
 		--"door_lr_dummy" = nil,
 		--"door_rr_dummy" = nil,
-		wheel_lf_dummy = { "fxtirebttf1lf", "fxwheelbttf1lf", "fxrotorlf", "brakelf", "holderlf", },
-		wheel_rf_dummy = { "fxtirebttf1rf", "fxwheelbttf1rf", "fxrotorrf", "brakerf", "holderrf", },
-		wheel_lb_dummy = { "fxtirebttf1lb", "fxwheelbttf1lb", "fxrotorlb", "brakelb", "holderlb", },
-		wheel_rb_dummy = { "fxtirebttf1rb", "fxwheelbttf1rb", "fxrotorrb", "brakerb", "holderrb", },
+		wheel_lf_dummy = { "fxtirebttf1lf", "fxwheelbttf1lf", "fxtirebttf3lf", "fxwheelbttf3lf", "fxhubcapbttf3lf", "fxrotorlf", "brakelf", "holderlf", },
+		wheel_rf_dummy = { "fxtirebttf1rf", "fxwheelbttf1rf", "fxtirebttf3rf", "fxwheelbttf3rf", "fxhubcapbttf3rf", "fxrotorrf", "brakerf", "holderrf", },
+		wheel_lb_dummy = { "fxtirebttf1lb", "fxwheelbttf1lb", "fxtirebttf3lb", "fxwheelbttf3lb", "fxhubcapbttf3lb", "fxrotorlb", "brakelb", "holderlb", },
+		wheel_rb_dummy = { "fxtirebttf1rb", "fxwheelbttf1rb", "fxtirebttf3rb", "fxwheelbttf3rb", "fxhubcapbttf3rb", "fxrotorrb", "brakerb", "holderrb", },
 	}
 	for dummyName, deloreanList in pairs(dummyComponentList) do
 		local x, y, z = getVehicleComponentRotation(vehicle, dummyName)

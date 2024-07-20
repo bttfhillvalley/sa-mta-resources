@@ -17,23 +17,36 @@ function spawnDelorean(key, keyState)
 	g_lastCarSpawn[localPlayer] = getTickCount()
 end
 
+function applyDeloreanVariation(delorean, variation)
+	-- loop through all the components of the DeLorean and apply
+	-- visibility on the components as configured in the gobal array
+	local components = getVehicleComponents(delorean)
+    for name, _ in pairs(components) do
+		
+		-- The global array only contains items that should be visible.
+		-- Check if it contains this item. Use a double negation on the check
+		-- to get false for items not in the array (those would return nil)
+		local common = not not g_vehicleComponents["common"][name]
+		local thisVariation = not not g_vehicleComponents[variation][name]
+		
+		-- show the component if it either belongs to the common variation
+		-- or this specific one
+		local visibility = common or thisVariation 
+        
+		-- apply
+        local result = setVehicleComponentVisible(delorean, name, visibility)
+		if not result then
+			outputDebugString(string.format("failed to set visibility of component '%s' to %s", name, tostring(visibility)))
+		end
+	end
+end
+
 addEvent("vehicleSpawned", true)
 function handleVehicleSpawnedEvent(delorean)
 	setVehicleWheelScale(delorean, 0.79)
 
 	local variation = getElementData(delorean, "deloreanVariation")
-	local components = getVehicleComponents(delorean)
-    for name, _ in pairs(components) do
-		-- the double negation changes a nil (for a not set list item) to false
-		local common = not not g_vehicleComponents["common"][name]
-		local thisVariation = not not g_vehicleComponents[variation][name]
-		--outputDebugString(string.format("%s, common = %s, var = %s", name, tostring(common), tostring(thisVariation)))
-		local visibility = common or thisVariation 
-        local result = setVehicleComponentVisible(delorean, name, visibility)
-		if not result then
-			outputDebugString(string.format("failed to set visibility of components '%s' to %s", name, tostring(visibility)))
-		end
-	end
+	applyDeloreanVariation(delorean, variation)	
 end
 addEventHandler("vehicleSpawned", getRootElement(), handleVehicleSpawnedEvent)
 

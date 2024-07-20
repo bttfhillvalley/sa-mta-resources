@@ -66,6 +66,17 @@
         <component name="rotor_rf" />
         <component name="rotor_lf" />
         <component name="chassisinterior" />
+        <component name="bonnet_ok" />
+        <component name="bonnetrstrutp" />
+        <component name="bump_front_ok" />
+        <component name="bump_rear_ok" />
+        <component name="door_lf_ok" />
+        <component name="door_rf_ok" />
+        <component name="windscreen_ok" />
+        <component name="wing_lf_ok" />
+        <component name="wing_lr_ok" />
+        <component name="wing_rf_ok" />
+        <component name="wing_rr_ok" />
     </variant>
     <variant name="stock">
         <component name="gloveboxclosed" />

@@ -17,7 +17,9 @@ function nextDeloreanVariation(vehicle)
 		g_idxLastVariation = 1
 	end
 
-	applyDeloreanVariation(vehicle, g_vehicleComponents._variationNames[g_idxLastVariation])
+	local variation = g_vehicleComponents._variationNames[g_idxLastVariation]
+	setElementData(vehicle, "deloreanVariation", variation)
+	applyDeloreanVariation(vehicle, variation)
 end
 
 function spawnDelorean(vehicle)

@@ -1,5 +1,5 @@
 function updateDummyRotations(vehicle)
-    if not isVehicleTimeMachine(vehicle) then
+    if not isVehicleDelorean(vehicle) then
         return
     end
 

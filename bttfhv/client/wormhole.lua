@@ -27,17 +27,26 @@ function wormhole(vehicle)
     if not isVehicleTimeMachine(vehicle) then
         return
     end
+
+    -- the bttf3 variants get different wormhole models than the other time machines
+    local formatStr
+    local variation = getElementData(vehicle, "deloreanVariation")
+    if string.sub(variation, 1, 5) == "bttf3" then
+        formatStr = "wormholer%d"
+    else
+        formatStr = "wormhole%d" 
+    end
     
     local mph = getVehicleSpeedMph(vehicle)
     if mph > 44.9 then
         -- get which animation frame is currently visible
-        local i = getCurrentWormholeComponentVisible(vehicle, "wormhole%d")
+        local i = getCurrentWormholeComponentVisible(vehicle, formatStr)
         if not i then 
             -- if none is visible, start with the first frame
             i = 0
         else
             -- reset the frame that's currently visible
-            local name = string.format("wormhole%d", i)
+            local name = string.format(formatStr, i)
             setVehicleComponentVisible(vehicle, name, false)
         end
         -- count to the next animation frame
@@ -59,10 +68,10 @@ function wormhole(vehicle)
                 i = 0
             end
         end
-        local name = string.format("wormhole%d", i)
+        local name = string.format(formatStr, i)
         setVehicleComponentVisible(vehicle, name, true)
     else
-        resetWormholeComponents(vehicle, "wormhole%d", true)
+        resetWormholeComponents(vehicle, formatStr, true)
     end
 end
 
